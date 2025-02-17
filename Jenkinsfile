@@ -31,6 +31,10 @@ pipeline {
         stage("Deploy") {
             steps {
                 echo "This is deploying the code"
+                // Remove any existing container named 'notes-app'
+                sh "docker rm -f notes-app || true"
+                // Run the container with port mapping (host:container)
+                sh "docker run -d -p 8000:8000 --name notes-app $DOCKER_USER/notes-app:latest"
             }
         }
     }
